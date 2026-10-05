@@ -1,0 +1,13 @@
+body{font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0;margin:0}
+header{background:#1e293b;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+nav a{color:#38bdf8;margin-left:1rem;text-decoration:none}
+main{max-width:900px;margin:2rem auto;padding:0 1rem}
+form,.card{background:#1e293b;padding:1.5rem;border-radius:8px;margin-bottom:1rem}
+input,button{display:block;width:100%;margin:.5rem 0;padding:.6rem;border-radius:6px;border:1px solid #334155;background:#0f172a;color:#e2e8f0}
+button{background:#2563eb;border:none;cursor:pointer}
+button.danger{background:#dc2626}
+table{width:100%;border-collapse:collapse}
+td,th{border-bottom:1px solid #334155;padding:.5rem;text-align:left}
+.badge{padding:.2rem .5rem;border-radius:4px;font-size:.8rem}
+.pass{background:#166534}.warn{background:#854d0e}.fail{background:#991b1b}
+a{color:#38bdf8}

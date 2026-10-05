@@ -1,0 +1,44 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: securecheck_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: securecheck
+      MYSQL_USER: securecheck
+      MYSQL_PASSWORD: securecheck123
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: ./server
+    container_name: securecheck_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: securecheck
+      DB_PASSWORD: securecheck123
+      DB_NAME: securecheck
+      JWT_SECRET: change_me_in_production_supersecret
+      JWT_REFRESH_SECRET: change_me_refresh_supersecret
+      ADMIN_EMAIL: admin@securecheck.local
+      ADMIN_PASSWORD: Admin@1234
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
