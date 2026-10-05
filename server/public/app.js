@@ -91,9 +91,10 @@ async function dashboardPage() {
   const scans = await api('/security/history');
   const s = scans.length ? Math.round(scans.reduce((a, x) => a + (x.score || 0), 0) / scans.length) : '-';
   app.innerHTML = `<div class="stats"><div class="stat"><span>Total Scans</span><b>${scans.length}</b></div><div class="stat"><span>Avg Score</span><b>${s}</b></div><div class="stat"><span>Role</span><b>${currentUser.role}</b></div></div><h2>Welcome ${currentUser.username}</h2><h3>My Scan History</h3>`;
-  app.innerHTML += `<table><tr><th>URL</th><th>Score</th><th>Status</th><th>Date</th></tr>` +
-    scans.map(s => `<tr><td>${s.url}</td><td>${s.score}</td><td>${s.status_code}</td><td>${new Date(s.created_at).toLocaleString()}</td></tr>`).join('') + '</table>';
+  app.innerHTML += `<table><tr><th>URL</th><th>Score</th><th>Status</th><th>Date</th><th></th></tr>` +
+    scans.map(s => `<tr><td>${s.url}</td><td>${s.score}</td><td>${s.status_code}</td><td>${new Date(s.created_at).toLocaleString()}</td><td><button class="danger" onclick="delScan(${s.id})">Delete</button></td></tr>`).join('') + '</table>';
 }
+window.delScan = async id => { if (confirm('Delete scan ' + id + '?')) { await api('/security/history/' + id, { method: 'DELETE' }); render(); } };
 
 function scanPage() {
   if (!currentUser) return loginPage();
@@ -131,10 +132,14 @@ async function adminPage() {
   const users = await api('/admin/users');
   app.innerHTML += '<h3>Users</h3><table><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th></th></tr>' +
     users.map(u => `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td>${u.role}</td><td>${u.role === 'user' ? `<button class="danger" onclick="delUser(${u.id})">Delete</button>` : ''}</td></tr>`).join('') + '</table>';
+  const scansAll = await api('/admin/scans');
+  app.innerHTML += '<h3>All Scans</h3><table><tr><th>ID</th><th>User</th><th>URL</th><th>Score</th><th>Date</th><th></th></tr>' +
+    scansAll.map(s => `<tr><td>${s.id}</td><td>${s.email}</td><td>${s.url}</td><td>${s.score}</td><td>${new Date(s.created_at).toLocaleString()}</td><td><button class="danger" onclick="delAdminScan(${s.id})">Delete</button></td></tr>`).join('') + '</table>';
   const logs = await api('/admin/logs');
   app.innerHTML += '<h3>Security Logs</h3><table><tr><th>Action</th><th>User</th><th>IP</th><th>Time</th></tr>' +
     logs.slice(0, 50).map(l => `<tr><td>${l.action}</td><td>${l.email || l.user_id || '-'}</td><td>${l.ip_address || ''}</td><td>${new Date(l.created_at).toLocaleString()}</td></tr>`).join('') + '</table>';
 }
 window.delUser = async id => { if (confirm('Delete user ' + id + '?')) { await api('/admin/users/' + id, { method: 'DELETE' }); render(); } };
+window.delAdminScan = async id => { if (confirm('Delete scan ' + id + '?')) { await api('/admin/scans/' + id, { method: 'DELETE' }); render(); } };
 
 render();
