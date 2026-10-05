@@ -31,9 +31,9 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "username": "testuser",
-    "email": "testuser@gmail.com",
-    "password": "Password123!"
+    "username": "wutthipong",
+    "email": "wutthipong-k@rmutp.ac.th",
+    "password": "0911646466"
 }
 
 ### USER - REGISTER ANOTHER USER
@@ -51,8 +51,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "testuser@gmail.com",
-    "password": "Password123!"
+    "email": "kittikoon-p@rmutp.ac.th",
+    "password": "0911646466"
 }
 
 ### USER - LOGIN WRONG PASSWORD (Expected: 401)
@@ -60,13 +60,13 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "testuser@gmail.com",
-    "password": "WrongPassword"
+    "email": "wutthipong-k@rmutp.ac.th",
+    "password": "0911646456"
 }
 
 ### USER - LOGOUT
 POST {{baseUrl}}/auth/logout
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMjY3NywiZXhwIjoxNzkxMjAzNTc3fQ.ZJLQnIaDxeaqi-fB46ABmKOdTQYgKontPQ0M5BH_G5o
 
 ### =========================================================
 ### 02 - FORGOT / RESET PASSWORD
@@ -77,7 +77,7 @@ POST {{baseUrl}}/auth/forgot-password
 Content-Type: application/json
 
 {
-    "email": "testuser@gmail.com"
+    "email": "kittikoon-p@rmutp.ac.th"
 }
 
 ### RESET PASSWORD
@@ -85,8 +85,8 @@ POST {{baseUrl}}/auth/reset-password
 Content-Type: application/json
 
 {
-    "token": "{{resetToken}}",
-    "newPassword": "NewPassword123!"
+    "token": "8f3adc9f55ecf171ff4a941fb7ac3446d7f698201883494eb6d3ee9380d1b2da",
+    "newPassword": "0911646466"
 }
 
 ### =========================================================
@@ -95,24 +95,24 @@ Content-Type: application/json
 
 ### GET MY PROFILE
 GET {{baseUrl}}/users/profile
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA5NDM2LCJleHAiOjE3OTEyMTAzMzZ9.i9GoqL0w7ibndvGhZZ4vGVZse0YK720ZIB94Jlb2aRU
 
 ### UPDATE MY PROFILE
 PUT {{baseUrl}}/users/profile
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 Content-Type: application/json
 
 {
-    "username": "testuser_updated"
+    "username": "wutthipong"
 }
 
 ### UPDATE EMAIL
 PUT {{baseUrl}}/users/profile
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 Content-Type: application/json
 
 {
-    "email": "testuser_new@gmail.com"
+    "email": "kittikoon-p@rmutp.ac.th"
 }
 
 ### UPDATE USERNAME + EMAIL
@@ -127,12 +127,12 @@ Content-Type: application/json
 
 ### CHANGE PASSWORD
 PUT {{baseUrl}}/users/password
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 Content-Type: application/json
 
 {
-    "oldPassword": "NewPassword123!",
-    "newPassword": "NewSecurePassword123!"
+    "oldPassword": "0911646444",
+    "newPassword": "0911646466"
 }
 
 ### =========================================================
@@ -141,7 +141,7 @@ Content-Type: application/json
 
 ### SECURITY CHECK - EXAMPLE.COM
 POST {{baseUrl}}/security/check
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA3ODcxLCJleHAiOjE3OTEyMDg3NzF9.IXVG7I_0b1Uom4HKqEN3Z0lXRwrBG4FrKjoAxlYZn6U
 Content-Type: application/json
 
 {
@@ -150,7 +150,7 @@ Content-Type: application/json
 
 ### SECURITY CHECK - HTTPS WEBSITE
 POST {{baseUrl}}/security/check
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA4Nzk4LCJleHAiOjE3OTEyMDk2OTh9.dk7ymxmVStPYZYohagQHD3j9jTRsC3DwPfuj69mvfD4
 Content-Type: application/json
 
 {
@@ -159,7 +159,7 @@ Content-Type: application/json
 
 ### SECURITY CHECK - ANOTHER TARGET
 POST {{baseUrl}}/security/check
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA3ODcxLCJleHAiOjE3OTEyMDg3NzF9.IXVG7I_0b1Uom4HKqEN3Z0lXRwrBG4FrKjoAxlYZn6U
 Content-Type: application/json
 
 {
@@ -168,7 +168,7 @@ Content-Type: application/json
 
 ### SECURITY CHECK - HTTP TARGET
 POST {{baseUrl}}/security/check
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA3ODcxLCJleHAiOjE3OTEyMDg3NzF9.IXVG7I_0b1Uom4HKqEN3Z0lXRwrBG4FrKjoAxlYZn6U
 Content-Type: application/json
 
 {
@@ -177,7 +177,7 @@ Content-Type: application/json
 
 ### SECURITY CHECK - INVALID URL (Expected: 400)
 POST {{baseUrl}}/security/check
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA3ODcxLCJleHAiOjE3OTEyMDg3NzF9.IXVG7I_0b1Uom4HKqEN3Z0lXRwrBG4FrKjoAxlYZn6U
 Content-Type: application/json
 
 {
@@ -190,15 +190,15 @@ Content-Type: application/json
 
 ### GET MY SECURITY HISTORY
 GET {{baseUrl}}/security/history
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 
 ### GET MY SECURITY SCAN BY ID
 GET {{baseUrl}}/security/history/{{scanId}}
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 
 ### DELETE MY SECURITY SCAN
 DELETE {{baseUrl}}/security/history/{{scanId}}
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ3dXR0aGlwb25nLWtAcm11dHAuYWMudGgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MTIwMzk0NCwiZXhwIjoxNzkxMjA0ODQ0fQ.D7KS4D0YRMLDCt2lotbFX5q6Q-hMPb4yJS4e8AE8wHM
 
 ### =========================================================
 ### 06 - AUTHORIZATION TEST
@@ -206,15 +206,15 @@ Authorization: Bearer {{userToken}}
 
 ### USER TRY TO ACCESS ADMIN USERS (Expected: 403)
 GET {{baseUrl}}/admin/users
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA0OTA1LCJleHAiOjE3OTEyMDU4MDV9.091v5pF4AGYDmEIKOaIFJogLw04dPAzBuuDKEdq-TF8
 
 ### USER TRY TO ACCESS ADMIN DASHBOARD (Expected: 403)
 GET {{baseUrl}}/admin/dashboard
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA0OTA1LCJleHAiOjE3OTEyMDU4MDV9.091v5pF4AGYDmEIKOaIFJogLw04dPAzBuuDKEdq-TF8
 
 ### USER TRY TO ACCESS ADMIN LOGS (Expected: 403)
 GET {{baseUrl}}/admin/logs
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA0OTA1LCJleHAiOjE3OTEyMDU4MDV9.091v5pF4AGYDmEIKOaIFJogLw04dPAzBuuDKEdq-TF8
 
 ### =========================================================
 ### 07 - ADMIN AUTHENTICATION
@@ -231,7 +231,7 @@ Content-Type: application/json
 
 ### ADMIN LOGOUT
 POST {{baseUrl}}/auth/logout
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 08 - ADMIN DASHBOARD
@@ -239,11 +239,11 @@ Authorization: Bearer {{adminToken}}
 
 ### ADMIN DASHBOARD
 GET {{baseUrl}}/admin/dashboard
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### ADMIN SYSTEM STATISTICS
 GET {{baseUrl}}/admin/statistics
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 09 - ADMIN USER MANAGEMENT
@@ -251,19 +251,19 @@ Authorization: Bearer {{adminToken}}
 
 ### GET ALL USERS
 GET {{baseUrl}}/admin/users
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET USER BY ID
-GET {{baseUrl}}/admin/users/{{userId}}
-Authorization: Bearer {{adminToken}}
+GET {{baseUrl}}/admin/users/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### DELETE USER
-DELETE {{baseUrl}}/admin/users/{{userId}}
-Authorization: Bearer {{adminToken}}
+DELETE {{baseUrl}}/admin/users/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### TRY DELETE ADMIN (Expected: 403)
 DELETE {{baseUrl}}/admin/users/admin
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 10 - ADMIN SECURITY SCANS
@@ -271,15 +271,15 @@ Authorization: Bearer {{adminToken}}
 
 ### GET ALL SECURITY SCANS
 GET {{baseUrl}}/admin/scans
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwODg0OCwiZXhwIjoxNzkxMjA5NzQ4fQ.WrlvyuEJ1_bCEEuyTucXchEhhikPimX-4c6wCcB7KGw
 
 ### GET SECURITY SCAN BY ID
-GET {{baseUrl}}/admin/scans/{{scanId}}
-Authorization: Bearer {{adminToken}}
+GET {{baseUrl}}/admin/scans/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwODg0OCwiZXhwIjoxNzkxMjA5NzQ4fQ.WrlvyuEJ1_bCEEuyTucXchEhhikPimX-4c6wCcB7KGw
 
 ### DELETE SECURITY SCAN
-DELETE {{baseUrl}}/admin/scans/{{scanId}}
-Authorization: Bearer {{adminToken}}
+DELETE {{baseUrl}}/admin/scans/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwODg0OCwiZXhwIjoxNzkxMjA5NzQ4fQ.WrlvyuEJ1_bCEEuyTucXchEhhikPimX-4c6wCcB7KGw
 
 ### =========================================================
 ### 11 - ADMIN HISTORY
@@ -287,11 +287,11 @@ Authorization: Bearer {{adminToken}}
 
 ### GET ALL SECURITY HISTORY
 GET {{baseUrl}}/admin/history
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET USER HISTORY
 GET {{baseUrl}}/admin/users/{{userId}}/history
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 12 - ADMIN SECURITY LOGS
@@ -299,19 +299,19 @@ Authorization: Bearer {{adminToken}}
 
 ### GET ALL SECURITY LOGS
 GET {{baseUrl}}/admin/logs
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET LOGIN LOGS
 GET {{baseUrl}}/admin/logs?action=LOGIN
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET SECURITY SCAN LOGS
 GET {{baseUrl}}/admin/logs?action=SECURITY_SCAN
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET FAILED LOGIN LOGS
 GET {{baseUrl}}/admin/logs?action=LOGIN_FAILED
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 13 - ADMIN SYSTEM MANAGEMENT
@@ -319,15 +319,15 @@ Authorization: Bearer {{adminToken}}
 
 ### GET SYSTEM INFORMATION
 GET {{baseUrl}}/admin/system
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### GET SYSTEM SECURITY SETTINGS
 GET {{baseUrl}}/admin/settings
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### UPDATE SYSTEM SECURITY SETTINGS
 PUT {{baseUrl}}/admin/settings
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 Content-Type: application/json
 
 {
@@ -348,11 +348,11 @@ Authorization: Bearer invalid-token
 
 ### USER ACCESS ADMIN (Expected: 403)
 GET {{baseUrl}}/admin/dashboard
-Authorization: Bearer {{userToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJraXR0aWtvb24tcEBybXV0cC5hYy50aCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkxMjA1OTQ2LCJleHAiOjE3OTEyMDY4NDZ9._KHxy2vg3pK5dgIVBshAxIweoyNqW6KarrtdBKrof1E
 
 ### ADMIN ACCESS ADMIN (Expected: 200)
 GET {{baseUrl}}/admin/dashboard
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNDk2MCwiZXhwIjoxNzkxMjA1ODYwfQ.fo0sNehMEX4sujtHsKgxt3tiXOUYNZliXkUwAYtDNGs
 
 ### =========================================================
 ### 15 - USER REGISTER VALIDATION
@@ -364,8 +364,8 @@ Content-Type: application/json
 
 {
     "username": "",
-    "email": "test@gmail.com",
-    "password": "Password123!"
+    "email": "kittikoon-p@rmutp.ac.th",
+    "password": "0911646466"
 }
 
 ### INVALID EMAIL (Expected: 400)
@@ -374,7 +374,7 @@ Content-Type: application/json
 
 {
     "username": "testuser",
-    "email": "invalid-email",
+    "email": "kittikoon-p@rmutp.ac.th",
     "password": "Password123!"
 }
 
@@ -393,9 +393,9 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "username": "anotheruser",
-    "email": "testuser@gmail.com",
-    "password": "Password123!"
+    "username": "wutthipong",
+    "email": "kittikoon-p@rmutp.ac.th",
+    "password": "0911646466"
 }
 
 ### =========================================================
@@ -404,27 +404,27 @@ Content-Type: application/json
 
 ### ADMIN - VIEW ALL USERS
 GET {{baseUrl}}/admin/users
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### ADMIN - VIEW ALL SCANS
 GET {{baseUrl}}/admin/scans
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### ADMIN - VIEW ALL HISTORY
 GET {{baseUrl}}/admin/history
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### ADMIN - VIEW SECURITY LOGS
 GET {{baseUrl}}/admin/logs
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### ADMIN - VIEW SYSTEM
 GET {{baseUrl}}/admin/system
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### ADMIN - VIEW SETTINGS
 GET {{baseUrl}}/admin/settings
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBzZWN1cmVjaGVjay5sb2NhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTIwNjExNiwiZXhwIjoxNzkxMjA3MDE2fQ.eLFE0LgkpSFv0Wr-bTldPtcuxedVQGj8yxIXxxm_cqs
 
 ### =========================================================
 ### END OF SECURECHECK REST CLIENT
