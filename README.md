@@ -1,7 +1,7 @@
 # SecureCheck API
 
 Web-Based REST API Security Checker with JWT Authentication and Role-Based Access Control (User / single Admin).
-
+ 
 ## Stack
 Node.js + Express, MySQL 8, Docker, vanilla JS frontend
 
