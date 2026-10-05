@@ -18,6 +18,12 @@ app.use('/api/admin', require('./routes/admin.routes'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
-app.use((err, req, res, next) => { console.error(err); res.status(500).json({ error: 'Internal error' }); });
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed' || (err instanceof SyntaxError && err.status === 400)) {
+    return res.status(400).json({ error: 'Invalid JSON body' });
+  }
+  console.error(err);
+  res.status(500).json({ error: 'Internal error' });
+});
 
 module.exports = app;
