@@ -63,7 +63,7 @@ function loginPage() {
 }
 function registerPage() {
   app.innerHTML = '<h2>Register</h2>';
-  app.appendChild(form([['Name', 'name'], ['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Register', async b => {
+  app.appendChild(form([['Username', 'username'], ['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Register', async b => {
     await api('/auth/register', { method: 'POST', body: JSON.stringify(b) }); location.hash = '#login';
   }));
 }
@@ -77,14 +77,14 @@ function forgotPage() {
 function resetPage() {
   app.innerHTML = '<h2>Reset Password</h2>';
   app.appendChild(form([['Token', 'token'], ['New Password', 'password', 'password']], 'Reset', async b => {
-    await api('/auth/reset-password', { method: 'POST', body: JSON.stringify(b) }); location.hash = '#login';
+    await api('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token: b.token, newPassword: b.password }) }); location.hash = '#login';
   }));
 }
 
 async function dashboardPage() {
   if (!currentUser) return loginPage();
-  app.innerHTML = `<h2>Welcome ${currentUser.name} (${currentUser.role})</h2><h3>My Scan History</h3>`;
-  const scans = await api('/users/me/scans');
+  app.innerHTML = `<h2>Welcome ${currentUser.username} (${currentUser.role})</h2><h3>My Scan History</h3>`;
+  const scans = await api('/security/history');
   app.innerHTML += `<table><tr><th>URL</th><th>Score</th><th>Status</th><th>Date</th></tr>` +
     scans.map(s => `<tr><td>${s.url}</td><td>${s.score}</td><td>${s.status_code}</td><td>${new Date(s.created_at).toLocaleString()}</td></tr>`).join('') + '</table>';
 }
@@ -95,7 +95,7 @@ function scanPage() {
   const out = document.createElement('div');
   app.appendChild(form([['https://example.com', 'url']], 'Scan', async b => {
     out.innerHTML = 'Scanning...';
-    const d = await api('/scans', { method: 'POST', body: JSON.stringify(b) });
+    const d = await api('/security/check', { method: 'POST', body: JSON.stringify(b) });
     out.innerHTML = `<div class="card"><h3>Score: ${d.score}/100 (${d.statusCode})</h3><table><tr><th>Header</th><th>Status</th><th>Message</th></tr>` +
       d.findings.map(f => `<tr><td>${f.header}</td><td><span class="badge ${f.status}">${f.status}</span></td><td>${f.message}</td></tr>`).join('') + '</table></div>';
   }));
@@ -105,15 +105,15 @@ function scanPage() {
 async function profilePage() {
   if (!currentUser) return loginPage();
   app.innerHTML = '<h2>Profile</h2>';
-  const me = await api('/users/me');
+  const me = await api('/users/profile');
   app.innerHTML += `<p>${me.email} — ${me.role} — joined ${new Date(me.created_at).toLocaleDateString()}</p>`;
-  app.appendChild(form([['Name', 'name'], ['Email', 'email', 'email']], 'Update Profile', async b => {
-    await api('/users/me', { method: 'PUT', body: JSON.stringify(b) }); alert('Updated');
+  app.appendChild(form([['Username', 'username'], ['Email', 'email', 'email']], 'Update Profile', async b => {
+    await api('/users/profile', { method: 'PUT', body: JSON.stringify(b) }); alert('Updated');
   }));
-  document.querySelector('form input[name=name]').value = me.name;
+  document.querySelector('form input[name=username]').value = me.username;
   document.querySelector('form input[name=email]').value = me.email;
-  app.appendChild(form([['Current Password', 'currentPassword', 'password'], ['New Password', 'newPassword', 'password']], 'Change Password', async b => {
-    await api('/users/me/password', { method: 'PUT', body: JSON.stringify(b) }); alert('Changed');
+  app.appendChild(form([['Current Password', 'oldPassword', 'password'], ['New Password', 'newPassword', 'password']], 'Change Password', async b => {
+    await api('/users/password', { method: 'PUT', body: JSON.stringify(b) }); alert('Changed');
   }));
 }
 
@@ -124,7 +124,7 @@ async function adminPage() {
   app.innerHTML += `<div class="card">Users: ${d.users} | Scans: ${d.scans} | Avg score: ${d.avgScore}</div>`;
   const users = await api('/admin/users');
   app.innerHTML += '<h3>Users</h3><table><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th></th></tr>' +
-    users.map(u => `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.role}</td><td>${u.role === 'user' ? `<button class="danger" onclick="delUser(${u.id})">Delete</button>` : ''}</td></tr>`).join('') + '</table>';
+    users.map(u => `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td>${u.role}</td><td>${u.role === 'user' ? `<button class="danger" onclick="delUser(${u.id})">Delete</button>` : ''}</td></tr>`).join('') + '</table>';
   const logs = await api('/admin/logs');
   app.innerHTML += '<h3>Security Logs</h3><table><tr><th>Action</th><th>User</th><th>IP</th><th>Time</th></tr>' +
     logs.slice(0, 50).map(l => `<tr><td>${l.action}</td><td>${l.email || l.user_id || '-'}</td><td>${l.ip_address || ''}</td><td>${new Date(l.created_at).toLocaleString()}</td></tr>`).join('') + '</table>';

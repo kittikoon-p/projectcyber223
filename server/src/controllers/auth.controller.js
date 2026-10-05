@@ -16,15 +16,16 @@ async function issueTokens(req, res, user) {
 }
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) return res.status(400).json({ error: 'name, email, password required' });
-  if (password.length < 8) return res.status(400).json({ error: 'Password min 8 chars' });
+  const { username, email, password } = req.body;
+  if (!username || !username.trim()) return res.status(400).json({ error: 'username required' });
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'valid email required' });
+  if (!password || password.length < 8) return res.status(400).json({ error: 'Password min 8 chars' });
   const [rows] = await db.query('SELECT id FROM users WHERE email=?', [email]);
   if (rows.length) return res.status(409).json({ error: 'Email already exists' });
   const hash = await bcrypt.hash(password, 10);
-  const [r] = await db.query('INSERT INTO users (name, email, password_hash, role) VALUES (?,?,?,\'user\')', [name, email, hash]);
+  const [r] = await db.query('INSERT INTO users (username, email, password_hash, role) VALUES (?,?,?,\'user\')', [username.trim(), email, hash]);
   await logSecurity(req, r.insertId, 'REGISTER', { email });
-  res.status(201).json({ id: r.insertId, name, email, role: 'user' });
+  res.status(201).json({ id: r.insertId, username, email, role: 'user' });
 };
 
 exports.login = async (req, res) => {
@@ -32,12 +33,12 @@ exports.login = async (req, res) => {
   const [rows] = await db.query('SELECT * FROM users WHERE email=?', [email]);
   const user = rows[0];
   if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-    await logSecurity(req, null, 'LOGIN_FAIL', { email });
+    await logSecurity(req, null, 'LOGIN_FAILED', { email });
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   const access = await issueTokens(req, res, user);
-  await logSecurity(req, user.id, 'LOGIN_SUCCESS', {});
-  res.json({ accessToken: access, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  await logSecurity(req, user.id, 'LOGIN', {});
+  res.json({ accessToken: access, user: { id: user.id, username: user.username, email: user.email, role: user.role } });
 };
 
 exports.logout = async (req, res) => {
@@ -74,11 +75,11 @@ exports.forgotPassword = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token, password } = req.body;
-  if (!token || !password || password.length < 8) return res.status(400).json({ error: 'token and password(min 8) required' });
+  const { token, newPassword } = req.body;
+  if (!token || !newPassword || newPassword.length < 8) return res.status(400).json({ error: 'token and newPassword(min 8) required' });
   const [rows] = await db.query('SELECT id FROM users WHERE reset_token=? AND reset_token_expires > NOW()', [sha256(token)]);
   if (!rows.length) return res.status(400).json({ error: 'Invalid or expired token' });
-  const hash = await bcrypt.hash(password, 10);
+  const hash = await bcrypt.hash(newPassword, 10);
   await db.query('UPDATE users SET password_hash=?, reset_token=NULL, reset_token_expires=NULL WHERE id=?', [hash, rows[0].id]);
   await logSecurity(req, rows[0].id, 'PASSWORD_RESET', {});
   res.json({ message: 'Password updated' });

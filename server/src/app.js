@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/users', require('./routes/user.routes'));
-app.use('/api/scans', require('./routes/scan.routes'));
+app.use('/api/security', require('./routes/scan.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));

@@ -3,8 +3,7 @@ const u = require('../controllers/user.controller');
 const { auth } = require('../middleware/auth');
 
 r.use(auth);
-r.get('/me', u.me);
-r.put('/me', u.updateMe);
-r.put('/me/password', u.changePassword);
-r.get('/me/scans', u.myScans);
+r.get('/profile', u.me);
+r.put('/profile', u.updateMe);
+r.put('/password', u.changePassword);
 module.exports = r;

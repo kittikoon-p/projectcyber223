@@ -4,9 +4,17 @@ const { auth, requireAdmin } = require('../middleware/auth');
 
 r.use(auth, requireAdmin);
 r.get('/dashboard', a.dashboard);
+r.get('/statistics', a.statistics);
 r.get('/users', a.users);
+r.get('/users/:id', a.userById);
 r.delete('/users/:id', a.deleteUser);
+r.get('/users/:id/history', a.userHistory);
 r.get('/scans', a.scans);
+r.get('/scans/:id', a.scanById);
+r.delete('/scans/:id', a.deleteScan);
 r.get('/history', a.history);
 r.get('/logs', a.logs);
+r.get('/system', a.system);
+r.get('/settings', a.getSettings);
+r.put('/settings', a.updateSettings);
 module.exports = r;

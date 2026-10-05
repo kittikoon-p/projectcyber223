@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
+  username VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   role ENUM('user','admin') NOT NULL DEFAULT 'user',
@@ -42,3 +42,11 @@ CREATE TABLE IF NOT EXISTS security_logs (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS system_settings (
+  `key` VARCHAR(100) PRIMARY KEY,
+  `value` VARCHAR(255) NOT NULL
+);
+
+INSERT INTO system_settings (`key`, `value`) VALUES ('maxScanPerUser', '20'), ('scanTimeout', '10000')
+ON DUPLICATE KEY UPDATE `value`=`value`;

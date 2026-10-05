@@ -8,7 +8,7 @@ async function seedAdmin() {
   const email = process.env.ADMIN_EMAIL || 'admin@securecheck.local';
   const password = process.env.ADMIN_PASSWORD || 'Admin@1234';
   const hash = await bcrypt.hash(password, 10);
-  await db.query("INSERT INTO users (name, email, password_hash, role) VALUES ('Administrator', ?, ?, 'admin')", [email, hash]);
+  await db.query("INSERT INTO users (username, email, password_hash, role) VALUES ('Administrator', ?, ?, 'admin')", [email, hash]);
   console.log(`Admin seeded: ${email}`);
 }
 

@@ -1,0 +1,431 @@
+@baseUrl = http://localhost:3000/api
+
+### =========================================================
+### SECURECHECK API - REST CLIENT
+### =========================================================
+### Roles:
+###   USER  = ผู้ใช้งานทั่วไป
+###   ADMIN = Administrator (มีได้เพียง 1 account)
+###
+### แนะนำ:
+### 1. Register User
+### 2. Login User
+### 3. Copy JWT จาก Response มาใส่ @userToken
+### 4. Login Admin
+### 5. Copy JWT มาใส่ @adminToken
+### =========================================================
+
+@userToken = YOUR_USER_JWT_TOKEN
+@adminToken = YOUR_ADMIN_JWT_TOKEN
+
+@userId = 1
+@scanId = 1
+@resetToken = YOUR_RESET_TOKEN
+
+### =========================================================
+### 01 - USER AUTHENTICATION
+### =========================================================
+
+### USER - REGISTER
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "testuser@gmail.com",
+    "password": "Password123!"
+}
+
+### USER - REGISTER ANOTHER USER
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "john",
+    "email": "john@gmail.com",
+    "password": "Password123!"
+}
+
+### USER - LOGIN
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "testuser@gmail.com",
+    "password": "Password123!"
+}
+
+### USER - LOGIN WRONG PASSWORD (Expected: 401)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "testuser@gmail.com",
+    "password": "WrongPassword"
+}
+
+### USER - LOGOUT
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{userToken}}
+
+### =========================================================
+### 02 - FORGOT / RESET PASSWORD
+### =========================================================
+
+### FORGOT PASSWORD
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "testuser@gmail.com"
+}
+
+### RESET PASSWORD
+POST {{baseUrl}}/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "{{resetToken}}",
+    "newPassword": "NewPassword123!"
+}
+
+### =========================================================
+### 03 - USER PROFILE
+### =========================================================
+
+### GET MY PROFILE
+GET {{baseUrl}}/users/profile
+Authorization: Bearer {{userToken}}
+
+### UPDATE MY PROFILE
+PUT {{baseUrl}}/users/profile
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "username": "testuser_updated"
+}
+
+### UPDATE EMAIL
+PUT {{baseUrl}}/users/profile
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "email": "testuser_new@gmail.com"
+}
+
+### UPDATE USERNAME + EMAIL
+PUT {{baseUrl}}/users/profile
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "username": "secureuser",
+    "email": "secureuser@gmail.com"
+}
+
+### CHANGE PASSWORD
+PUT {{baseUrl}}/users/password
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "oldPassword": "NewPassword123!",
+    "newPassword": "NewSecurePassword123!"
+}
+
+### =========================================================
+### 04 - USER SECURITY CHECKER
+### =========================================================
+
+### SECURITY CHECK - EXAMPLE.COM
+POST {{baseUrl}}/security/check
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "url": "https://example.com"
+}
+
+### SECURITY CHECK - HTTPS WEBSITE
+POST {{baseUrl}}/security/check
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "url": "https://google.com"
+}
+
+### SECURITY CHECK - ANOTHER TARGET
+POST {{baseUrl}}/security/check
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "url": "https://github.com"
+}
+
+### SECURITY CHECK - HTTP TARGET
+POST {{baseUrl}}/security/check
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "url": "http://example.com"
+}
+
+### SECURITY CHECK - INVALID URL (Expected: 400)
+POST {{baseUrl}}/security/check
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "url": "invalid-url"
+}
+
+### =========================================================
+### 05 - USER SECURITY HISTORY
+### =========================================================
+
+### GET MY SECURITY HISTORY
+GET {{baseUrl}}/security/history
+Authorization: Bearer {{userToken}}
+
+### GET MY SECURITY SCAN BY ID
+GET {{baseUrl}}/security/history/{{scanId}}
+Authorization: Bearer {{userToken}}
+
+### DELETE MY SECURITY SCAN
+DELETE {{baseUrl}}/security/history/{{scanId}}
+Authorization: Bearer {{userToken}}
+
+### =========================================================
+### 06 - AUTHORIZATION TEST
+### =========================================================
+
+### USER TRY TO ACCESS ADMIN USERS (Expected: 403)
+GET {{baseUrl}}/admin/users
+Authorization: Bearer {{userToken}}
+
+### USER TRY TO ACCESS ADMIN DASHBOARD (Expected: 403)
+GET {{baseUrl}}/admin/dashboard
+Authorization: Bearer {{userToken}}
+
+### USER TRY TO ACCESS ADMIN LOGS (Expected: 403)
+GET {{baseUrl}}/admin/logs
+Authorization: Bearer {{userToken}}
+
+### =========================================================
+### 07 - ADMIN AUTHENTICATION
+### =========================================================
+
+### ADMIN LOGIN
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@securecheck.local",
+    "password": "AdminPassword123!"
+}
+
+### ADMIN LOGOUT
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 08 - ADMIN DASHBOARD
+### =========================================================
+
+### ADMIN DASHBOARD
+GET {{baseUrl}}/admin/dashboard
+Authorization: Bearer {{adminToken}}
+
+### ADMIN SYSTEM STATISTICS
+GET {{baseUrl}}/admin/statistics
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 09 - ADMIN USER MANAGEMENT
+### =========================================================
+
+### GET ALL USERS
+GET {{baseUrl}}/admin/users
+Authorization: Bearer {{adminToken}}
+
+### GET USER BY ID
+GET {{baseUrl}}/admin/users/{{userId}}
+Authorization: Bearer {{adminToken}}
+
+### DELETE USER
+DELETE {{baseUrl}}/admin/users/{{userId}}
+Authorization: Bearer {{adminToken}}
+
+### TRY DELETE ADMIN (Expected: 403)
+DELETE {{baseUrl}}/admin/users/admin
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 10 - ADMIN SECURITY SCANS
+### =========================================================
+
+### GET ALL SECURITY SCANS
+GET {{baseUrl}}/admin/scans
+Authorization: Bearer {{adminToken}}
+
+### GET SECURITY SCAN BY ID
+GET {{baseUrl}}/admin/scans/{{scanId}}
+Authorization: Bearer {{adminToken}}
+
+### DELETE SECURITY SCAN
+DELETE {{baseUrl}}/admin/scans/{{scanId}}
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 11 - ADMIN HISTORY
+### =========================================================
+
+### GET ALL SECURITY HISTORY
+GET {{baseUrl}}/admin/history
+Authorization: Bearer {{adminToken}}
+
+### GET USER HISTORY
+GET {{baseUrl}}/admin/users/{{userId}}/history
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 12 - ADMIN SECURITY LOGS
+### =========================================================
+
+### GET ALL SECURITY LOGS
+GET {{baseUrl}}/admin/logs
+Authorization: Bearer {{adminToken}}
+
+### GET LOGIN LOGS
+GET {{baseUrl}}/admin/logs?action=LOGIN
+Authorization: Bearer {{adminToken}}
+
+### GET SECURITY SCAN LOGS
+GET {{baseUrl}}/admin/logs?action=SECURITY_SCAN
+Authorization: Bearer {{adminToken}}
+
+### GET FAILED LOGIN LOGS
+GET {{baseUrl}}/admin/logs?action=LOGIN_FAILED
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 13 - ADMIN SYSTEM MANAGEMENT
+### =========================================================
+
+### GET SYSTEM INFORMATION
+GET {{baseUrl}}/admin/system
+Authorization: Bearer {{adminToken}}
+
+### GET SYSTEM SECURITY SETTINGS
+GET {{baseUrl}}/admin/settings
+Authorization: Bearer {{adminToken}}
+
+### UPDATE SYSTEM SECURITY SETTINGS
+PUT {{baseUrl}}/admin/settings
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "maxScanPerUser": 20,
+    "scanTimeout": 10000
+}
+
+### =========================================================
+### 14 - SECURITY / AUTHORIZATION TEST CASES
+### =========================================================
+
+### NO TOKEN (Expected: 401)
+GET {{baseUrl}}/users/profile
+
+### INVALID TOKEN (Expected: 401)
+GET {{baseUrl}}/users/profile
+Authorization: Bearer invalid-token
+
+### USER ACCESS ADMIN (Expected: 403)
+GET {{baseUrl}}/admin/dashboard
+Authorization: Bearer {{userToken}}
+
+### ADMIN ACCESS ADMIN (Expected: 200)
+GET {{baseUrl}}/admin/dashboard
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### 15 - USER REGISTER VALIDATION
+### =========================================================
+
+### EMPTY USERNAME (Expected: 400)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "",
+    "email": "test@gmail.com",
+    "password": "Password123!"
+}
+
+### INVALID EMAIL (Expected: 400)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "invalid-email",
+    "password": "Password123!"
+}
+
+### SHORT PASSWORD (Expected: 400)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "test@gmail.com",
+    "password": "123"
+}
+
+### DUPLICATE EMAIL (Expected: 409)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "anotheruser",
+    "email": "testuser@gmail.com",
+    "password": "Password123!"
+}
+
+### =========================================================
+### 16 - ADMIN ONLY TEST
+### =========================================================
+
+### ADMIN - VIEW ALL USERS
+GET {{baseUrl}}/admin/users
+Authorization: Bearer {{adminToken}}
+
+### ADMIN - VIEW ALL SCANS
+GET {{baseUrl}}/admin/scans
+Authorization: Bearer {{adminToken}}
+
+### ADMIN - VIEW ALL HISTORY
+GET {{baseUrl}}/admin/history
+Authorization: Bearer {{adminToken}}
+
+### ADMIN - VIEW SECURITY LOGS
+GET {{baseUrl}}/admin/logs
+Authorization: Bearer {{adminToken}}
+
+### ADMIN - VIEW SYSTEM
+GET {{baseUrl}}/admin/system
+Authorization: Bearer {{adminToken}}
+
+### ADMIN - VIEW SETTINGS
+GET {{baseUrl}}/admin/settings
+Authorization: Bearer {{adminToken}}
+
+### =========================================================
+### END OF SECURECHECK REST CLIENT
+### =========================================================
