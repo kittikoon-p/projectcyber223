@@ -54,18 +54,23 @@ function form(fields, button, onsubmit) {
   return f;
 }
 
+const hero = `<div class="hero"><h2>&#128737; SecureCheck API</h2><p>เครื่องมือตรวจสอบความปลอดภัยของ REST API ตรวจ Security Headers พร้อมระบบ JWT Authentication และ Role-Based Access Control</p><div class="features"><div class="feature">&#128274; JWT Auth</div><div class="feature">&#128100; User / Admin</div><div class="feature">&#128269; Header Scan</div><div class="feature">&#128202; Scan History</div></div></div>`;
+
+function authPage(title, fields, button, onsubmit) {
+  app.innerHTML = `<div class="auth-grid">${hero}<div class="auth-card"><h2>${title}</h2></div></div>`;
+  document.querySelector('.auth-card').appendChild(form(fields, button, onsubmit));
+}
+
 function loginPage() {
-  app.innerHTML = '<h2>Login</h2>';
-  app.appendChild(form([['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Login', async b => {
+  authPage('เข้าสู่ระบบ', [['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Login', async b => {
     const d = await api('/auth/login', { method: 'POST', body: JSON.stringify(b) });
     setSession(d.accessToken, d.user); location.hash = '#dashboard';
-  }));
+  });
 }
 function registerPage() {
-  app.innerHTML = '<h2>Register</h2>';
-  app.appendChild(form([['Username', 'username'], ['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Register', async b => {
+  authPage('สมัครสมาชิก', [['Username', 'username'], ['Email', 'email', 'email'], ['Password', 'password', 'password']], 'Register', async b => {
     await api('/auth/register', { method: 'POST', body: JSON.stringify(b) }); location.hash = '#login';
-  }));
+  });
 }
 function forgotPage() {
   app.innerHTML = '<h2>Forgot Password</h2>';
@@ -83,8 +88,9 @@ function resetPage() {
 
 async function dashboardPage() {
   if (!currentUser) return loginPage();
-  app.innerHTML = `<h2>Welcome ${currentUser.username} (${currentUser.role})</h2><h3>My Scan History</h3>`;
   const scans = await api('/security/history');
+  const s = scans.length ? Math.round(scans.reduce((a, x) => a + (x.score || 0), 0) / scans.length) : '-';
+  app.innerHTML = `<div class="stats"><div class="stat"><span>Total Scans</span><b>${scans.length}</b></div><div class="stat"><span>Avg Score</span><b>${s}</b></div><div class="stat"><span>Role</span><b>${currentUser.role}</b></div></div><h2>Welcome ${currentUser.username}</h2><h3>My Scan History</h3>`;
   app.innerHTML += `<table><tr><th>URL</th><th>Score</th><th>Status</th><th>Date</th></tr>` +
     scans.map(s => `<tr><td>${s.url}</td><td>${s.score}</td><td>${s.status_code}</td><td>${new Date(s.created_at).toLocaleString()}</td></tr>`).join('') + '</table>';
 }
@@ -121,7 +127,7 @@ async function adminPage() {
   if (!currentUser || currentUser.role !== 'admin') return dashboardPage();
   app.innerHTML = '<h2>Admin Dashboard</h2>';
   const d = await api('/admin/dashboard');
-  app.innerHTML += `<div class="card">Users: ${d.users} | Scans: ${d.scans} | Avg score: ${d.avgScore}</div>`;
+  app.innerHTML += `<div class="stats"><div class="stat"><span>Users</span><b>${d.users}</b></div><div class="stat"><span>Scans</span><b>${d.scans}</b></div><div class="stat"><span>Avg Score</span><b>${d.avgScore}</b></div><div class="stat"><span>Today</span><b>${d.scansToday}</b></div></div>`;
   const users = await api('/admin/users');
   app.innerHTML += '<h3>Users</h3><table><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th></th></tr>' +
     users.map(u => `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td>${u.role}</td><td>${u.role === 'user' ? `<button class="danger" onclick="delUser(${u.id})">Delete</button>` : ''}</td></tr>`).join('') + '</table>';
